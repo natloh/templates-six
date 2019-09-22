@@ -4,6 +4,17 @@
     {include file="$template/includes/alert.tpl" type="error" msg=$LANG.moduleactionfailed textcenter=true}
 {/if}
 
+{if $unpaidInvoice}
+    <div class="alert alert-{if $unpaidInvoiceOverdue}danger{else}warning{/if}" id="alert{if $unpaidInvoiceOverdue}Overdue{else}Unpaid{/if}Invoice">
+        <div class="pull-right">
+            <a href="viewinvoice.php?id={$unpaidInvoice}" class="btn btn-xs btn-default">
+                {lang key='payInvoice'}
+            </a>
+        </div>
+        {$unpaidInvoiceMessage}
+    </div>
+{/if}
+
 <div class="tab-content margin-bottom">
     <div class="tab-pane fade in active" id="tabOverview">
 
@@ -55,24 +66,24 @@
                 <h4><strong>{$LANG.clientareastatus}:</strong></h4> {$status}
             </div>
         </div>
-        {if $sslInfo}
-        <div class="row">
-            <div class="col-sm-offset-1 col-sm-5{if !$sslInfo->active} ssl-required{/if}">
-                <h4><strong>{$LANG.sslState.sslStatus}</strong></h4> <img src="{$BASE_PATH_IMG}/ssl/{$sslImage}" width="16"> {$sslMessage}
-            </div>
-            <div class="col-sm-6">
-                {if $sslInfo->active}
-                    <h4><strong>{$LANG.sslState.startDate}</strong></h4> {$sslInfo->startDate->toClientDateFormat()}
+        {if $sslStatus}
+            <div class="row">
+                <div class="col-sm-offset-1 col-sm-5{if $sslStatus->isInactive()} ssl-inactive{/if}">
+                    <h4><strong>{$LANG.sslState.sslStatus}</strong></h4> <img src="{$sslStatus->getImagePath()}" width="16"> {$sslStatus->getStatusDisplayLabel()}
+                </div>
+                {if $sslStatus->isActive()}
+                    <div class="col-sm-6">
+                        <h4><strong>{$LANG.sslState.startDate}</strong></h4> {$sslStatus->startDate->toClientDateFormat()}
+                    </div>
                 {/if}
             </div>
-        </div>
-            {if $sslInfo->active}
+            {if $sslStatus->isActive()}
                 <div class="row">
                     <div class="col-sm-offset-1 col-sm-5">
-                        <h4><strong>{$LANG.sslState.issuerName}</strong></h4> {$sslInfo->issuerName}
+                        <h4><strong>{$LANG.sslState.issuerName}</strong></h4> {$sslStatus->issuerName}
                     </div>
                     <div class="col-sm-6">
-                        <h4><strong>{$LANG.sslState.expiryDate}</strong></h4> {$sslInfo->expiryDate->toClientDateFormat()}
+                        <h4><strong>{$LANG.sslState.expiryDate}</strong></h4> {$sslStatus->expiryDate->toClientDateFormat()}
                     </div>
                 </div>
             {/if}
@@ -172,7 +183,7 @@
     </div>
     <div class="tab-pane fade" id="tabNameservers">
 
-        <h3>Nameservers</h3>
+        <h3>{$LANG.domainnameservers}</h3>
 
         {if $nameservererror}
             {include file="$template/includes/alert.tpl" type="error" msg=$nameservererror textcenter=true}
@@ -244,7 +255,6 @@
                     <input type="submit" class="btn btn-lg btn-danger" value="{$LANG.domainreglockdisable}" />
                 </p>
             {else}
-                <input type="hidden" name="autorenew" value="enable">
                 <p class="text-center">
                     <input type="submit" class="btn btn-lg btn-success" name="reglock" value="{$LANG.domainreglockenable}" />
                 </p>

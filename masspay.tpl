@@ -12,7 +12,7 @@
             {foreach from=$invoiceitems key=invid item=invoiceitem}
                 <tr>
                     <td colspan="2" class="bg-info">
-                        <strong>{$LANG.invoicenumber} {$invid}</strong>
+                        <strong>{$LANG.invoicenumber} {if $invoiceitem.0.invoicenum}{$invoiceitem.0.invoicenum}{else}{$invid}{/if}</strong>
                         <input type="hidden" name="invoiceids[]" value="{$invid}" />
                     </td>
                 </tr>
@@ -80,7 +80,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <input type="submit" value="{$LANG.masspaymakepayment}" class="btn btn-primary btn-block" />
+                                <input type="submit" value="{$LANG.masspaymakepayment}" class="btn btn-primary btn-block" id="btnMassPayMakePayment" />
                             </div>
                         </div>
                     </fieldset>

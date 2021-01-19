@@ -12,33 +12,44 @@
 
 <section id="footer">
     <div class="container">
-        <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
-        <p>Copyright &copy; {$date_year} {$companyname}. All Rights Reserved.</p>
+        <a href="#" class="back-to-top"><i class="fas fa-chevron-up"></i></a>
+        <p>{lang key="copyrightFooterNotice" year=$date_year company=$companyname}</p>
     </div>
 </section>
 
+<div id="fullpage-overlay" class="hidden">
+    <div class="outer-wrapper">
+        <div class="inner-wrapper">
+            <img src="{$WEB_ROOT}/assets/img/overlay-spinner.svg">
+            <br>
+            <span class="msg"></span>
+        </div>
+    </div>
+</div>
+
 <div class="modal system-modal fade" id="modalAjax" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content panel panel-primary">
+        <div class="modal-content panel-primary">
             <div class="modal-header panel-heading">
                 <button type="button" class="close" data-dismiss="modal">
                     <span aria-hidden="true">&times;</span>
-                    <span class="sr-only">Close</span>
+                    <span class="sr-only">{$LANG.close}</span>
                 </button>
-                <h4 class="modal-title">Title</h4>
+                <h4 class="modal-title"></h4>
             </div>
             <div class="modal-body panel-body">
-                Loading...
+                {$LANG.loading}
             </div>
             <div class="modal-footer panel-footer">
                 <div class="pull-left loader">
-                    <i class="fa fa-circle-o-notch fa-spin"></i> Loading...
+                    <i class="fas fa-circle-notch fa-spin"></i>
+                    {$LANG.loading}
                 </div>
                 <button type="button" class="btn btn-default" data-dismiss="modal">
-                    Close
+                    {$LANG.close}
                 </button>
                 <button type="button" class="btn btn-primary modal-submit">
-                    Submit
+                    {$LANG.submit}
                 </button>
             </div>
         </div>
@@ -94,6 +105,8 @@ findByTextContent('Powered by WHMCompleteSolution', 'p').forEach(function(elem) 
 <script type="text/javascript" src="https://www.123host.me/wp-content/themes/123hostme-theme/js/navigation.js"></script>
 <script>(function(d,a){function c(){var b=d.createElement("script");b.async=!0;b.type="text/javascript";b.src=a._settings.messengerUrl;b.crossOrigin="anonymous";var c=d.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c)}window.kayako=a;a.readyQueue=[];a.newEmbedCode=!0;a.ready=function(b){a.readyQueue.push(b)};a._settings={apiUrl:"https://123hostme.kayako.com/api/v1",messengerUrl:"https://123hostme.kayakocdn.com/messenger",realtimeUrl:"wss://kre.kayako.net/socket"};window.attachEvent?window.attachEvent("onload",c):window.addEventListener("load",c,!1)})(document,window.kayako||{});</script>
 {/literal}
+
+{include file="$template/includes/generate-password.tpl"}
 
 {$footeroutput}
 
